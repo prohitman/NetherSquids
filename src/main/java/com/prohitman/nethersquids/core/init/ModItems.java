@@ -1,0 +1,24 @@
+package com.prohitman.nethersquids.core.init;
+
+import com.prohitman.nethersquids.NetherSquids;
+import com.prohitman.nethersquids.common.items.FireBootsItem;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+
+public class ModItems {
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NetherSquids.MODID);
+
+    public static final RegistryObject<Item> BEAK = ITEMS.register("beak", () -> new Item(new Item.Properties().fireResistant()));
+    public static final RegistryObject<Item> SAW = ITEMS.register("saw", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> TENTACLE = ITEMS.register("tentacle", () -> new Item(new Item.Properties().fireResistant().food(ModFoods.TENTACLE)));
+    public static final RegistryObject<Item> DEAD_SQUID = ITEMS.register("dead_squid", () -> new Item(new Item.Properties().fireResistant().stacksTo(16)));
+    public static final RegistryObject<Item> FIRE_BOOTS = ITEMS.register("fire_boots", () -> new FireBootsItem(ArmorMaterials.NETHERITE, ArmorItem.Type.BOOTS, new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final RegistryObject<Item> NETHER_SQUID_SPAWN_EGG = ITEMS.register("nether_squid_spawn_egg", () -> new ForgeSpawnEggItem(ModEntities.NETHER_SQUID, 0x9F3A3A, 0xFF9191, new Item.Properties()));
+
+}

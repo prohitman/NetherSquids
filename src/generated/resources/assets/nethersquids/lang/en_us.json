@@ -1,0 +1,12 @@
+{
+  "block.nethersquids.grinder": "Grinder",
+  "entity.minecraft.villager.nethersquids.squidder": "Squidder",
+  "entity.nethersquids.nether_squid": "Nether Squid",
+  "item.nethersquids.beak": "Beak",
+  "item.nethersquids.dead_squid": "Nether Squid Corpse",
+  "item.nethersquids.fire_boots": "Fire Boots",
+  "item.nethersquids.nether_squid_spawn_egg": "Nether Squid Spawn Egg",
+  "item.nethersquids.saw": "Saw",
+  "item.nethersquids.tentacle": "Tentacle",
+  "itemGroup.nethersquids": "Nether Squids Mod"
+}

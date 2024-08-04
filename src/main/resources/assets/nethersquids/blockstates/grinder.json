@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "nethersquids:block/grinder",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "nethersquids:block/grinder",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "nethersquids:block/grinder"
+    },
+    "facing=west": {
+      "model": "nethersquids:block/grinder",
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:magma_block"
+    },
+    "&": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "¿": {
+      "item": "nethersquids:beak"
+    }
+  },
+  "pattern": [
+    "¿ ¿",
+    "#&#"
+  ],
+  "result": {
+    "item": "nethersquids:fire_boots"
+  },
+  "show_notification": true
+}

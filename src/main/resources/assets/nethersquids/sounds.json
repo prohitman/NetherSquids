@@ -1,0 +1,11 @@
+{
+  "grinding": {
+    "subtitles": "sounds.nethersquids.grinding",
+    "sounds": [
+      {
+        "name": "nethersquids:grinding",
+        "volume": 0.45
+      }
+    ]
+  }
+}

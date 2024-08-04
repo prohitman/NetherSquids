@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:cobblestone"
+    },
+    "$": {
+      "tag": "minecraft:planks"
+    },
+    "&": {
+      "item": "nethersquids:saw"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "&&&",
+    "$@$",
+    "###"
+  ],
+  "result": {
+    "item": "nethersquids:grinder"
+  },
+  "show_notification": true
+}
