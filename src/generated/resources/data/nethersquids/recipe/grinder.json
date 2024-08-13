@@ -21,7 +21,7 @@
     "###"
   ],
   "result": {
-    "item": "nethersquids:grinder"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "nethersquids:grinder"
+  }
 }

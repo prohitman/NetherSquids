@@ -15,7 +15,7 @@
     "& &"
   ],
   "result": {
-    "item": "nethersquids:saw"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "nethersquids:saw"
+  }
 }

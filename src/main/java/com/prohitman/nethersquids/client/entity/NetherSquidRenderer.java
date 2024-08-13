@@ -7,12 +7,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class NetherSquidRenderer extends LavaSquidRenderer<NetherSquid> {
-    private static final ResourceLocation NETHER_SQUID_LOCATION = new ResourceLocation(NetherSquids.MODID,"textures/entity/nether_squid.png");
+    private static final ResourceLocation NETHER_SQUID_LOCATION = ResourceLocation.fromNamespaceAndPath(NetherSquids.MODID,"textures/entity/nether_squid.png");
 
     public NetherSquidRenderer(EntityRendererProvider.Context p_174136_, SquidModel<NetherSquid> p_174137_) {
         super(p_174136_, p_174137_);

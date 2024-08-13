@@ -6,8 +6,9 @@ import com.prohitman.nethersquids.core.init.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.codehaus.plexus.util.StringUtils;
 
 public class ModLanguageProvider extends LanguageProvider {
@@ -33,11 +34,11 @@ public class ModLanguageProvider extends LanguageProvider {
         add("itemGroup.nethersquids", "Nether Squids Mod");
     }
 
-    public void addBlock(RegistryObject<Block> key) {
+    public void addBlock(DeferredBlock<Block> key) {
         add(key.get().getDescriptionId(), StringUtils.capitaliseAllWords(key.getId().getPath().replaceAll("_", " ")));
     }
 
-    public void addItem(RegistryObject<Item> key){
+    public void addItem(DeferredItem<Item> key){
         add(key.get().getDescriptionId(), StringUtils.capitaliseAllWords(key.getId().getPath().replaceAll("_", " ")));
     }
 }

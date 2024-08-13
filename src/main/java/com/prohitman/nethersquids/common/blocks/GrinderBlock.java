@@ -1,5 +1,6 @@
 package com.prohitman.nethersquids.common.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.prohitman.nethersquids.common.blocks.entity.GrinderBlockEntity;
 import com.prohitman.nethersquids.core.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
@@ -23,12 +24,12 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
 public class GrinderBlock extends BaseEntityBlock {
+    public static final MapCodec<GrinderBlock> CODEC = simpleCodec(GrinderBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public GrinderBlock(Properties pProperties) {
@@ -86,14 +87,15 @@ public class GrinderBlock extends BaseEntityBlock {
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
+
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
             if(entity instanceof GrinderBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (GrinderBlockEntity)entity, pPos);
+                pPlayer.openMenu((GrinderBlockEntity)entity, pPos);
             } else {
-                throw new IllegalStateException("Our Container provider is missing!");
+                throw new IllegalStateException("Container provider is missing!");
             }
         }
 
@@ -105,6 +107,12 @@ public class GrinderBlock extends BaseEntityBlock {
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new GrinderBlockEntity(pPos, pState);
     }
+
+    @Override
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
 
     @Nullable
     @Override

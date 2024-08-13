@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_saw": {
+    "has_beak": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "nethersquids:saw"
-            ]
+            "items": "nethersquids:beak"
           }
         ]
       },
@@ -15,21 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "nethersquids:grinder"
+        "recipe": "nethersquids:fire_boots"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_saw",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_beak"
     ]
   ],
   "rewards": {
     "recipes": [
-      "nethersquids:grinder"
+      "nethersquids:fire_boots"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

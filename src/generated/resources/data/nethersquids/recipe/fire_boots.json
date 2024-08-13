@@ -17,7 +17,7 @@
     "#&#"
   ],
   "result": {
-    "item": "nethersquids:fire_boots"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "nethersquids:fire_boots"
+  }
 }

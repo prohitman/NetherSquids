@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class LavaSquidRenderer<T extends LavaSquid> extends MobRenderer<T, SquidModel<T>> {
-    private static final ResourceLocation SQUID_LOCATION = new ResourceLocation("textures/entity/squid/squid.png");
+    private static final ResourceLocation SQUID_LOCATION = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/squid/squid.png");
 
     public LavaSquidRenderer(EntityRendererProvider.Context pContext, SquidModel<T> pModel) {
         super(pContext, pModel, 0.7F);
@@ -26,7 +26,8 @@ public class LavaSquidRenderer<T extends LavaSquid> extends MobRenderer<T, Squid
         return SQUID_LOCATION;
     }
 
-    protected void setupRotations(T pEntityLiving, PoseStack pMatrixStack, float pAgeInTicks, float pRotationYaw, float pPartialTicks) {
+    @Override
+    protected void setupRotations(T pEntityLiving, PoseStack pMatrixStack, float bob, float pRotationYaw, float pPartialTicks, float scale) {
         float f = Mth.lerp(pPartialTicks, pEntityLiving.xBodyRotO, pEntityLiving.xBodyRot);
         float f1 = Mth.lerp(pPartialTicks, pEntityLiving.zBodyRotO, pEntityLiving.zBodyRot);
         pMatrixStack.translate(0.0F, 0.5F, 0.0F);

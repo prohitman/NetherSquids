@@ -11,8 +11,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class GrinderMenu extends AbstractContainerMenu {
     public final GrinderBlockEntity blockEntity;
@@ -33,13 +32,13 @@ public class GrinderMenu extends AbstractContainerMenu {
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 44, 35));
+        //this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+            this.addSlot(new SlotItemHandler(blockEntity.getItemHandler(), 0, 44, 35));
 
             for (int i = 0; i < 3; i++) {//rows
-                this.addSlot(new GrinderOutputSlot(iItemHandler, i + 1, 98, 17 +i * 18));
+                this.addSlot(new GrinderOutputSlot(blockEntity.getItemHandler(), i + 1, 98, 17 +i * 18));
             }
-        });
+        //});
 
         addDataSlots(data);
     }

@@ -9,16 +9,16 @@ public class FireBootsModel extends GeoModel<FireBootsItem> {
 
     @Override
     public ResourceLocation getModelResource(FireBootsItem fireBootsItem) {
-        return new ResourceLocation(NetherSquids.MODID, "geo/fireboots.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(NetherSquids.MODID, "geo/fireboots.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(FireBootsItem fireBootsItem) {
-        return new ResourceLocation(NetherSquids.MODID, "textures/armor/fireboots.png");
+        return ResourceLocation.fromNamespaceAndPath(NetherSquids.MODID, "textures/armor/fireboots.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(FireBootsItem fireBootsItem) {
-        return new ResourceLocation(NetherSquids.MODID, "animations/fireboots.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(NetherSquids.MODID, "animations/fireboots.animation.json");
     }
 }

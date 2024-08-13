@@ -1,13 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_iron": {
+    "has_saw": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:iron_ingot"
-            ]
+            "items": "nethersquids:saw"
           }
         ]
       },
@@ -15,21 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "nethersquids:saw"
+        "recipe": "nethersquids:grinder"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_iron",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_saw"
     ]
   ],
   "rewards": {
     "recipes": [
-      "nethersquids:saw"
+      "nethersquids:grinder"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

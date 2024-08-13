@@ -2,24 +2,26 @@ package com.prohitman.nethersquids.core.datagen.server;
 
 import com.prohitman.nethersquids.core.init.ModBlocks;
 import com.prohitman.nethersquids.core.init.ModItems;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class ModRecipes extends RecipeProvider {
-    public ModRecipes(PackOutput pOutput) {
-        super(pOutput);
+    public ModRecipes(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider) {
+        super(pOutput, pLookupProvider);
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildRecipes(RecipeOutput consumer) {
         ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.FIRE_BOOTS.get()).define('#', Blocks.MAGMA_BLOCK).define('&', Items.NETHERITE_INGOT).define('¿', ModItems.BEAK.get())
                 .pattern("¿ ¿")
                 .pattern("#&#")

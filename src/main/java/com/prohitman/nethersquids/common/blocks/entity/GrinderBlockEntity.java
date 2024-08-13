@@ -6,12 +6,16 @@ import com.prohitman.nethersquids.core.init.ModItems;
 import com.prohitman.nethersquids.core.init.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -24,6 +28,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -31,13 +36,13 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.util.Lazy;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +54,7 @@ public class GrinderBlockEntity extends BlockEntity implements MenuProvider {
     private static final int OUTPUT_SLOT_1 = 1;
     private static final int OUTPUT_SLOT_2 = 2;
     private static final int OUTPUT_SLOT_3 = 3;
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+    private Lazy<IItemHandler> lazyItemHandler = Lazy.of(() -> itemHandler);
     protected final ContainerData data;
     private int progress = 0;
     private int maxProgress = 100;
@@ -83,26 +88,26 @@ public class GrinderBlockEntity extends BlockEntity implements MenuProvider {
         };
     }
 
-    @Override
+/*    @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if(cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
         }
 
         return super.getCapability(cap, side);
-    }
+    }*/
 
     @Override
     public void onLoad() {
         super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        lazyItemHandler = Lazy.of(() -> itemHandler);
     }
 
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
+//    @Override
+//    public void invalidateCaps() {
+//        super.invalidateCaps();
+//        lazyItemHandler.invalidate();
+//    }
 
     public void drops() {
         SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
@@ -124,36 +129,52 @@ public class GrinderBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
-        pTag.put("inventory", itemHandler.serializeNBT());
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        pTag.put("inventory", itemHandler.serializeNBT(registries));
         pTag.putInt("grinder_be.progress", progress);
 
         if (craftingLoot != null) {
             ListTag listTag = new ListTag();
             for (ItemStack stack : craftingLoot) {
-                listTag.add(stack.serializeNBT());
+                listTag.add(stack.save(registries, pTag));
             }
             pTag.put("grinder_be.craftingLoot", listTag);
         }
-
-        super.saveAdditional(pTag);
+        super.saveAdditional(pTag, registries);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        itemHandler.deserializeNBT(pTag.getCompound("inventory"));
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider registries) {
+        super.loadAdditional(pTag, registries);
+        itemHandler.deserializeNBT(registries, pTag.getCompound("inventory"));
         progress = pTag.getInt("grinder_be.progress");
 
         if (pTag.contains("grinder_be.craftingLoot", Tag.TAG_LIST)) {
             ListTag listTag = pTag.getList("grinder_be.craftingLoot", Tag.TAG_COMPOUND);
             craftingLoot = new ArrayList<>();
             for (int i = 0; i < listTag.size(); i++) {
-                craftingLoot.add(ItemStack.of(listTag.getCompound(i)));
+                ItemStack.parse(registries, listTag.getCompound(i)).ifPresent(stack -> craftingLoot.add(stack));
             }
         } else {
             craftingLoot = null;
         }
+    }
+
+    /*@Nonnull
+    private ItemStackHandler createItemHandler() {
+        return new ItemStackHandler(SLOT_COUNT) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                setChanged();
+                if (level != null) {
+                    level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_ALL);
+                }
+            }
+        };
+    }*/
+
+    public IItemHandler getItemHandler() {
+        return itemHandler;
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
@@ -260,9 +281,8 @@ public class GrinderBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private List<ItemStack> generateLoot(ServerLevel level){
-        ResourceLocation lootTableLocation = new ResourceLocation("nethersquids", "blocks/grinder_loot_table");
-        LootTable lootTable = level.getServer().getLootData().getLootTable(lootTableLocation);
-
+        ResourceLocation lootTableLocation = ResourceLocation.fromNamespaceAndPath("nethersquids", "blocks/grinder_loot_table");
+        LootTable lootTable = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, lootTableLocation));
         LootParams lootparams = (new LootParams.Builder(level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.worldPosition)).withParameter(LootContextParams.BLOCK_STATE, this.getBlockState()).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).create(LootContextParamSets.BLOCK);
 
         return lootTable.getRandomItems(lootparams);

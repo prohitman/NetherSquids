@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class GrinderScreen extends AbstractContainerScreen<GrinderMenu> {
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(NetherSquids.MODID, "textures/gui/grinder_gui.png");
+            ResourceLocation.fromNamespaceAndPath(NetherSquids.MODID, "textures/gui/grinder_gui.png");
 
     public GrinderScreen(GrinderMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -50,7 +50,7 @@ public class GrinderScreen extends AbstractContainerScreen<GrinderMenu> {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderBackground(guiGraphics);
+        renderBackground(guiGraphics, mouseX, mouseY, delta);
         super.render(guiGraphics, mouseX, mouseY, delta);
         renderTooltip(guiGraphics, mouseX, mouseY);
     }

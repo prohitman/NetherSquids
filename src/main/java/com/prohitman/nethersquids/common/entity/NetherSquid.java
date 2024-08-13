@@ -32,9 +32,9 @@ public class NetherSquid extends LavaSquid {
         return ParticleTypes.LARGE_SMOKE;
     }
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_DARK_TICKS_REMAINING, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_DARK_TICKS_REMAINING, 0);
     }
 
     protected SoundEvent getSquirtSound() {

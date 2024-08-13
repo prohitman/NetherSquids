@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class LavaSquid extends LavaCreature{
     public float xBodyRot;
@@ -51,9 +52,9 @@ public class LavaSquid extends LavaCreature{
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D);
     }
 
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
+ /*   protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
         return pSize.height * 0.5F;
-    }
+    }*/
 
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SQUID_AMBIENT;
@@ -71,8 +72,8 @@ public class LavaSquid extends LavaCreature{
         return SoundEvents.SQUID_SQUIRT;
     }
 
-    public boolean canBeLeashed(Player pPlayer) {
-        return !this.isLeashed();
+    public boolean canBeLeashed() {
+        return true;
     }
 
     /**
@@ -82,8 +83,12 @@ public class LavaSquid extends LavaCreature{
         return 0.4F;
     }
 
-    protected Entity.MovementEmission getMovementEmission() {
+    protected Entity.@NotNull MovementEmission getMovementEmission() {
         return Entity.MovementEmission.EVENTS;
+    }
+
+    protected double getDefaultGravity() {
+        return 0.08;
     }
 
     /**
@@ -175,7 +180,7 @@ public class LavaSquid extends LavaCreature{
     }
 
     private void spawnInk() {
-        this.playSound(this.getSquirtSound(), this.getSoundVolume(), this.getVoicePitch());
+        this.makeSound(this.getSquirtSound());
         Vec3 vec3 = this.rotateVector(new Vec3(0.0D, -1.0D, 0.0D)).add(this.getX(), this.getY(), this.getZ());
 
         for(int i = 0; i < 30; ++i) {
