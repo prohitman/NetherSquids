@@ -37,7 +37,7 @@ public class CommonForgeEvents {
         if(!event.getEntity().level().isClientSide){
             BlockPos currentblockpos = event.getEntity().blockPosition();
             if(event.getEntity() instanceof LivingEntity livingEntity){
-                //if (!Objects.equal(livingEntity.lastPos, currentblockpos)) {
+                if (!Objects.equal(livingEntity.lastPos, currentblockpos)) {
                     ItemStack itemStack = livingEntity.getItemBySlot(EquipmentSlot.FEET);
                     if (itemStack.is(ModItems.FIRE_BOOTS.get()) && livingEntity.onGround()) {
                         BlockState blockstate = ModBlocks.FIRED_OBSIDIAN.get().defaultBlockState();
@@ -58,7 +58,7 @@ public class CommonForgeEvents {
                             }
                         }
                     }
-                //}
+                }
             }
         }
     }
